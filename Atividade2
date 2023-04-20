@@ -1,0 +1,75 @@
+#include <iostream>
+#include <bitset> // biblioteca para trabalhar com bits
+
+using namespace std;
+
+const int NUM_DIAS = 16;
+const int MAX_ALUNOS = 32;
+
+bitset<MAX_ALUNOS> frequencia[NUM_DIAS]; // vetor para armazenar a frequência dos alunos
+
+void registrarPresenca(int dia, int aluno) {
+    if (dia >= 0 && dia < NUM_DIAS && aluno >= 0 && aluno < MAX_ALUNOS) {
+        frequencia[dia].set(aluno, true); // define o bit correspondente ao aluno como 1 (presente)
+        cout << "Presenca do aluno " << aluno+1 << " registrada no dia " << dia+1 << endl;
+    } else {
+        cout << "Dia ou aluno invalido!" << endl;
+    }
+}
+
+void registrarAusencia(int dia, int aluno) {
+    if (dia >= 0 && dia < NUM_DIAS && aluno >= 0 && aluno < MAX_ALUNOS) {
+        frequencia[dia].set(aluno, false); // define o bit correspondente ao aluno como 0 (ausente)
+        cout << "Ausencia do aluno " << aluno+1 << " registrada no dia " << dia+1 << endl;
+    } else {
+        cout << "Dia ou aluno invalido!" << endl;
+    }
+}
+
+void imprimirFrequencia() {
+    for (int dia = 0; dia < NUM_DIAS; dia++) {
+        cout << "Dia " << dia+1 << ": ";
+        for (int aluno = 0; aluno < MAX_ALUNOS; aluno++) {
+            cout << frequencia[dia][aluno]; // acessa o bit correspondente ao aluno no dia atual
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int opcao, dia, aluno;
+    
+    do {
+        cout << "\n1. Registrar presenca\n2. Registrar ausencia\n3. Imprimir frequencia\n0. Sair\n";
+        cout << "Escolha uma opcao: ";
+        cin >> opcao;
+        
+        switch (opcao) {
+            case 1:
+                cout << "Digite o dia (1-" << NUM_DIAS << "): ";
+                cin >> dia;
+                cout << "Digite o aluno (1-" << MAX_ALUNOS << "): ";
+                cin >> aluno;
+                registrarPresenca(dia-1, aluno-1); // decrementa 1 para utilizar o índice correto do vetor
+                break;
+            case 2:
+                cout << "Digite o dia (1-" << NUM_DIAS << "): ";
+                cin >> dia;
+                cout << "Digite o aluno (1-" << MAX_ALUNOS << "): ";
+                cin >> aluno;
+                registrarAusencia(dia-1, aluno-1); // decrementa 1 para utilizar o índice correto do vetor
+                break;
+            case 3:
+                imprimirFrequencia();
+                break;
+            case 0:
+                cout << "Saindo...\n";
+                break;
+            default:
+                cout << "Opcao invalida!\n";
+                break;
+        }
+    } while (opcao != 0);
+    
+    return 0;
+}
